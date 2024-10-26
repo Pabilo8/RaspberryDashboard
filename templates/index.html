@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Raspberry-Pi Control Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"> <!-- Main styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='search.css') }}"> <!-- Search bar styles -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+</head>
+<body>
+    <h1>Raspberry-Pi Control Dashboard</h1>
+	<!-- Add Google Search bar above the grid -->
+ 	<script async src="https://cse.google.com/cse.js?cx=46115232c08f14310">
+</script>
+<div class="search-container">
+    <div class="gcse-searchbox-only" data-resultsurl="https://google.com/search"></div>
+</div>
+
+    <div class="grid-container" id="grid">
+        <div class="grid-item" id="slot-1"></div>
+        <div class="grid-item" id="slot-2"></div>
+        <div class="grid-item" id="slot-3"></div>
+        <div class="grid-item" id="slot-4"></div>
+        <div class="grid-item" id="slot-5">
+            <!-- Temperature Panel with Mockup Data -->
+            <div id="temperature-panel">
+                <div class="handle">Temperature & Weather</div>
+                <p><strong>Weather:</strong> Sunny, 25°C</p>
+                <p><strong>Room Temperature:</strong> 22°C</p>
+                <p><strong>Outside Temperature:</strong> 15°C</p>
+                <p><strong>CPU Temperature:</strong> 48°C</p>
+            </div>
+        </div>
+        <div class="grid-item" id="slot-6">
+            <!-- Color Changer Panel -->
+            <div id="color-changer-panel">
+                <div class="handle">LED Color Changer</div>
+                <label for="red">Red:</label>
+                <input type="range" id="red" name="red" min="0" max="255" value="128" oninput="updateColorBox()"><br>
+                <label for="green">Green:</label>
+                <input type="range" id="green" name="green" min="0" max="255" value="128" oninput="updateColorBox()"><br>
+                <label for="blue">Blue:</label>
+                <input type="range" id="blue" name="blue" min="0" max="255" value="128" oninput="updateColorBox()"><br>
+                <label for="brightness">Brightness:</label>
+                <input type="range" id="brightness" name="brightness" min="0" max="100" value="69" oninput="updateColorBox()"><br>
+                <div id="color-display" onclick="sendColor()">Set Color</div>
+            </div>
+        </div>
+        <div class="grid-item" id="slot-7"></div>
+        <div class="grid-item" id="slot-8"></div>
+    </div>
+
+    <script>
+        // Initialize SortableJS for the grid container with a handle
+        const grid = document.getElementById('grid');
+        Sortable.create(grid, {
+            animation: 150,
+            ghostClass: 'ghost',
+            swapThreshold: 0.5,
+            handle: '.handle', // Allows dragging only on the title bar
+        });
+
+	function updateColorBox() {
+	const red = parseInt(document.getElementById('red').value);
+        const green = parseInt(document.getElementById('green').value);
+        const blue = parseInt(document.getElementById('blue').value);
+        const brightness = parseInt(document.getElementById('brightness').value) / 100;
+
+	// Calculate the final RGB values based on brightness
+        const r = Math.round(red * brightness);
+        const g = Math.round(green * brightness);
+        const b = Math.round(blue * brightness);
+
+	// Update the preview box color
+        const previewBox = document.getElementById('color-display');
+        previewBox.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+        }
+
+        function sendColor() {
+            const r = document.getElementById('red').value;
+            const g = document.getElementById('green').value;
+            const b = document.getElementById('blue').value;
+            const brightness = document.getElementById('brightness').value;
+
+            fetch('/set_color', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ 
+                    r: parseInt(r), 
+                    g: parseInt(g), 
+                    b: parseInt(b),
+                    brightness: parseInt(brightness) 
+                })
+            })
+            .then(response => response.json())
+            .then(data => console.log(data));
+        }
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="6a2f1b11-c3b9-4bde-8204-f04ec341fa13" name="Raspberry" url="http://psisyn.local">
+        <fileTransfer accessType="SFTP" host="psisyn.local" port="22" sshConfigId="2432b81c-1bfb-491a-a2ca-871230322b9d" sshConfig="pabilo@psisyn.local:22 password">
+          <advancedOptions>
+            <advancedOptions controlEncoding="utf-8" dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

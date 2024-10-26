@@ -1,0 +1,74 @@
+/* search.css */
+.search-container {
+    text-align: center;
+    padding: 20px;
+}
+
+div[class^="gsc-"] {
+    border-style: none;
+    border-radius: 0px;
+}
+
+div[class^="gsc-control"] {
+    background-color: #3c3f41; /* Dark background */
+    border-color: #555555;
+    border-radius: 4px;
+    padding: 5px;
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+}
+
+div[class^="gsc-search-box"] {
+    display: flex; /* Use flexbox for alignment */
+}
+
+td[class^="gsc-input"] {
+    border: none;
+    border-radius: 4px;
+    padding: 2px;
+    margin: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    color: #a9b7c6; /* Light text color */
+    background-color: #ffffff; /* Input background */
+}
+
+td[class^="gsc-input"]:focus {
+    outline: none; /* Remove outline on focus */
+    background-color: #555555; /* Darker on focus */
+}
+
+button[class^="gsc-search-button"] {
+    background-color: #007acc; /* JetBrains-like blue */
+    border: none;
+    border-radius: 4px;
+    padding: 10px 10px;
+    cursor: pointer;
+    margin-right: 10px; /* Space between input and button */
+}
+
+button[class^="gsc-search-button"]:hover {
+    background-color: #005fa3; /* Darken on hover */
+}
+
+div[class^="gsc-results-wrapper"] {
+    background-color: #2e2e2e; /* Result background */
+    border-radius: 4px;
+    margin-top: 10px;
+    padding: 10px;
+    color: #a9b7c6; /* Result text color */
+}
+
+div[class^="gsc-result"] {
+    padding: 8px;
+    border-bottom: 1px solid #4e5254; /* Add separator between results */
+}
+
+div[class^="gsc-result"]:last-child {
+    border-bottom: none; /* Remove the last separator */
+}
+
+table[class^="gsc-completion-container"] {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    background-color: #4e5254;
+    color: #a9b7c6;
+}

@@ -1,0 +1,21 @@
+<div class="handle"><i class="fa-solid fa-network-wired"></i> LAN</div>
+<table id="results">
+    <thead>
+    <tr>
+        <th></th>
+        <th onclick="sortTable(1)">Device</th>
+        <th onclick="sortTable(2)">IP Address</th>
+        <th onclick="sortTable(3)">MAC Address</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for device in lan.devices %}
+    <tr>
+        <td><i class="fa-solid fa-{{ device.conn }}"></i></td>
+        <td onclick="copyText(this)">{{ device.hostname }}</td>
+        <td onclick="copyText(this)">{{ device.ip_address }}</td>
+        <td onclick="copyText(this)">{{ device.mac_address }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>

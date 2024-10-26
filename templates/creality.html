@@ -1,0 +1,11 @@
+<div class="handle"><i class="fa-solid fa-cube"></i> Ender 3 v3 KE</div>
+<object src="http://192.168.1.114:8080/?action=stream" width="480" style="width: 100%">
+    <img src="{{ url_for('static', filename='no-image.png') }}" width="480"
+         alt="Printer Offline">
+</object>
+<center>
+    {{ creality.done }} minutes
+    <progress id="printing" value="{{ creality.done }}" max="{{ creality.remaining }}">{{ creality.progress }}%
+    </progress>
+    {{ creality.remaining }} minutes
+</center>

@@ -1,0 +1,56 @@
+<style>
+    #color-display {
+        margin-top: 10px;
+        width: 100%;
+        height: 50px;
+        background-color: rgb(128, 128, 128);
+        cursor: pointer;
+    }
+</style>
+<div class="handle"><i class="fa-solid fa-swatchbook"></i> LED Color Changer</div>
+<label for="red">Red:</label>
+<input type="range" id="red" name="red" min="0" max="255" value="{{ led.r }}" style="accent-color: #FF5370"
+       oninput="updateColor()"><br>
+<label for="green">Green:</label>
+<input type="range" id="green" name="green" min="0" max="255" value="{{ led.g }}" style="accent-color: #C3E88D"
+       oninput="updateColor()"><br>
+<label for="blue">Blue:</label>
+<input type="range" id="blue" name="blue" min="0" max="255" value="{{ led.b }}" style="accent-color: #82AAFF"
+       oninput="updateColor()"><br>
+<label for="brightness">Brightness:</label>
+<input type="range" id="brightness" name="brightness" min="0" max="100" value="{{ led.brightness }}" style="accent-color: #B0BEC5"
+       oninput="updateColor()"><br>
+<div id="color-display" onclick="sendColor()"></div>
+
+<script>
+    function updateColor() {
+        const red = parseInt(document.getElementById('red').value);
+        const green = parseInt(document.getElementById('green').value);
+        const blue = parseInt(document.getElementById('blue').value);
+        const brightness = parseInt(document.getElementById('brightness').value) / 100;
+
+        // Calculate the final RGB values based on brightness
+        const r = Math.round(red * brightness);
+        const g = Math.round(green * brightness);
+        const b = Math.round(blue * brightness);
+
+        // Update the preview box color
+        const previewBox = document.getElementById('color-display');
+        previewBox.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+    }
+
+    function sendColor() {
+        fetch('/led/set_color', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                r: parseInt(document.getElementById('red').value),
+                g: parseInt(document.getElementById('green').value),
+                b: parseInt(document.getElementById('blue').value),
+                brightness: parseInt(document.getElementById('brightness').value)
+            })
+        })
+            .then(response => response.json())
+            .then(data => console.log(data));
+    }
+</script>

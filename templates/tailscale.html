@@ -1,0 +1,49 @@
+<div class="handle"><i class="fa-solid fa-circle-nodes"></i> Tailscale</div>
+<style>
+    .indicator {
+        font-style: oblique;
+    }
+    .indicator.off {
+        color: #866060;
+    }
+    .indicator.on {
+        color: #548054;
+    }
+    .indicator.idle {
+        color: #988b68;
+    }
+
+</style>
+<table style="width: 100%">
+    <tr>
+        <th>Network</th>
+        <th>Suffix</th>
+    </tr>
+    <tr>
+        <td style="text-align: center;">{{ tailscale.tailnet_name }}</td>
+        <td style="text-align: center;">{{ tailscale.tailnet_link }}</td>
+    </tr>
+</table>
+<hr>
+<table id="results">
+    <thead>
+    <tr>
+        <th onclick="sortTable(0)">Owner</th>
+        <th onclick="sortTable(1)">Device</th>
+        <th>IP Address</th>
+        <th onclick="sortTable(3)">OS</th>
+        <th onclick="sortTable(4)">Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for device in tailscale.devices %}
+    <tr>
+        <td onclick="copyText(this)">{{ device.owner }}</td>
+        <td onclick="copyText(this)">{{ device.device_name }}</td>
+        <td onclick="copyText(this)">{{ device.ip_address }}</td>
+        <td onclick="copyText(this)">{{ device.os }}</td>
+        <td onclick="copyText(this)" class="indicator {{ device.status }}"><i class="fa-solid fa-circle"></i>{{ device.status }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>

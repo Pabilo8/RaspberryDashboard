@@ -1,5 +1,5 @@
 # panels/weather.py
-from base_panel import BasePanel
+from panels.base_panel import BasePanel
 import requests
 
 

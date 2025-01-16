@@ -2,7 +2,7 @@ import logging
 
 from flask import Flask, render_template
 
-from base_panel import BasePanel
+from panels.base_panel import BasePanel
 from panels import led, weather, creality, tailscale, lan
 
 registered_panels = []

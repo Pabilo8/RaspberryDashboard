@@ -1,5 +1,5 @@
 # panels/led.py
-from base_panel import BasePanel
+from panels.base_panel import BasePanel
 from flask import request, jsonify
 from rpi_ws281x import PixelStrip, Color
 

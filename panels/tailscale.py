@@ -5,7 +5,7 @@ import json
 
 from flask import jsonify
 
-from base_panel import BasePanel
+from panels.base_panel import BasePanel
 
 
 class TailscalePanel(BasePanel):

@@ -1,5 +1,5 @@
 # panels/lan.py
-from base_panel import BasePanel
+from panels.base_panel import BasePanel
 import telnetlib
 
 

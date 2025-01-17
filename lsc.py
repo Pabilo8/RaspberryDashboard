@@ -17,6 +17,7 @@ logger = logging.getLogger(__name__)
 
 
 def register_panel(panel: BasePanel):
+    panel.config()
     app.register_blueprint(panel.bp)
     registered_panels.append({
         'blueprint': panel.bp,
@@ -24,7 +25,6 @@ def register_panel(panel: BasePanel):
         'data_provider': panel.get_data,
         'index': len(registered_panels)
     })
-    panel.config()
     logger.info("Registering panel:  " + panel.bp.name)
 
 
@@ -64,4 +64,4 @@ def index():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000)

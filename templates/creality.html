@@ -1,11 +1,61 @@
-<div class="handle"><i class="fa-solid fa-cube"></i> Ender 3 v3 KE</div>
-<object src="http://192.168.1.114:8080/?action=stream" width="480" style="width: 100%">
-    <img src="{{ url_for('static', filename='no-image.png') }}" width="480"
-         alt="Printer Offline">
+<div class="handle">
+    <i class="fa-solid fa-cube"></i> {{ creality.model_name }}
+    <div class="printer_state {{ creality.state }}"><i class="fa-solid fa-circle"></i> {{ creality.state }}</div>
+</div>
+<style>
+    .creality_td {
+        text-align: right;
+    }
+    .creality_th {
+        text-align: left;
+    }
+    
+    .printer_state {
+        font-style: oblique;
+        float: right;
+        text-align: right;
+    }
+
+    .printer_state.off, .printer_state.cancelled {
+        color: #866060;
+    }
+
+    .printer_state.error {
+        color: #7c445b;
+    }
+
+    .printer_state.complete {
+        color: #548054;
+    }
+
+    .printer_state.standby {
+        color: #988b68;
+    }
+
+    .printer_state.printing {
+        color: #7e9868;
+    }
+
+</style>
+<img src='/creality/webcam' width="480" style="width: 100%"
+     onerror="this.onerror=null;this.src='{{ url_for('static', filename='no-image.png') }}';" alt="Printer Offline">
 </object>
 <center>
-    {{ creality.done }} minutes
-    <progress id="printing" value="{{ creality.done }}" max="{{ creality.remaining }}">{{ creality.progress }}%
+    {{ creality.done }}
+    <progress id="printing" value="{{ creality.progress }}" max="100">{{ creality.progress }}%
     </progress>
-    {{ creality.remaining }} minutes
+    {{ creality.remaining }}
 </center>
+
+{% if creality.state_filename %}
+<table style="width: 100%; padding: 5px">
+    <tr>
+        <th><i class="fa-solid fa-circle-info"></i></th>
+        <td class="creality_td">{{ creality.state_message }}</td>
+    </tr>
+    <tr>
+        <th><i class="fa-solid fa-file-export"></i></th>
+        <td class="creality_td">{{ creality.state_filename }}</td>
+    </tr>
+</table>
+{% endif %}

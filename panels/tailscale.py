@@ -56,6 +56,7 @@ class TailscalePanel(BasePanel):
 
     def get_data(self):
         info = self.get_tailnet_info()
+        print(self.get_tailscale_status())
         return {'devices': self.get_tailscale_status(), 'tailnet_name': info[0], 'tailnet_link': info[1]}
 
     def set_config(self, data):

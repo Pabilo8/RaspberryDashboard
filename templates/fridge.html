@@ -1,0 +1,56 @@
+<div class="handle"><i class="fa-solid fa-snowflake"></i> Fridge Manager</div>
+<label for="barcode">Barcode:</label>
+<input type="number" id="barcode" oninput="limitDigits(this, 13)">
+<input type="button" value="Add Product" onclick="addProduct()">
+<hr>
+<table id="results">
+    <thead>
+        <tr>
+            <th>Product Name</th>
+            <th>Quantity</th>
+            <th>Image</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for product in fridge.products %}
+        <tr>
+            <td>{{ product.name }}</td>
+            <td>{{ product.quantity }}</td>
+            <td><img src="{{ product.image_url }}" alt="{{ product.product_name }}" width="50"></td>
+            <td>
+                <input type="button" value="Remove" onclick="deleteProduct('{{ product.code }}')">
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<script>
+function addProduct() {
+    const barcode = document.getElementById('barcode').value;
+    document.getElementById('barcode').value = '';
+    fetch('/fridge/add_product', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({barcode: barcode})
+    })
+        .then(response => response.json())
+        .then(data => console.log(data));
+}
+
+function deleteProduct(code) {
+    fetch('/fridge/remove_product', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({barcode: code})
+    })
+        .then(response => response.json())
+        .then(data => console.log(data));
+
+}
+function limitDigits(input, maxDigits) {
+    if (input.value.length > maxDigits) {
+        input.value = input.value.slice(0, maxDigits);
+    }
+}
+</script>

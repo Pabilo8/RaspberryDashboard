@@ -4,11 +4,12 @@ import logging
 import os
 
 from flask import Blueprint
-
+from flask_sock import Sock
 
 class BasePanel:
-    def __init__(self, name, url_prefix):
+    def __init__(self, name, url_prefix, sock:Sock=None):
         self.bp = Blueprint(name, __name__, url_prefix=url_prefix)
+        self.sock = sock
         self.logger = logging.getLogger(name)
 
     def log(self, message, level=logging.INFO):

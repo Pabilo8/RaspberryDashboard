@@ -24,7 +24,9 @@
     <div class="grid-item" id="slot-{{ pindex }}">
         <div class="panel" id="{{ pname }}-panel">
             {% if not pname == '' %}
+            {% with panel=panel_data[pname] %}
             {% include pname + '.html' %}
+            {% endwith %}
             {% endif %}
         </div>
     </div>

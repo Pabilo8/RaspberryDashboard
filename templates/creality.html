@@ -1,6 +1,6 @@
 <div class="handle">
-    <i class="fa-solid fa-cube"></i> {{ creality.model_name }}
-    <div class="printer_state {{ creality.state }}"><i class="fa-solid fa-circle"></i> {{ creality.state }}</div>
+    <i class="fa-solid fa-cube"></i> {{ panel.model_name }}
+    <div class="printer_state {{ panel.state }}"><i class="fa-solid fa-circle"></i> {{ panel.state }}</div>
 </div>
 <style>
     .creality_td {
@@ -41,21 +41,21 @@
      onerror="this.onerror=null;this.src='{{ url_for('static', filename='no-image.png') }}';" alt="Printer Offline">
 </object>
 <center>
-    {{ creality.done }}
-    <progress id="printing" value="{{ creality.progress }}" max="100">{{ creality.progress }}%
+    {{ panel.done }}
+    <progress id="printing" value="{{ panel.progress }}" max="100">{{ panel.progress }}%
     </progress>
-    {{ creality.remaining }}
+    {{ panel.remaining }}
 </center>
 
-{% if creality.state_filename %}
+{% if panel.state_filename %}
 <table style="width: 100%; padding: 5px">
     <tr>
         <th><i class="fa-solid fa-circle-info"></i></th>
-        <td class="creality_td">{{ creality.state_message }}</td>
+        <td class="creality_td">{{ panel.state_message }}</td>
     </tr>
     <tr>
         <th><i class="fa-solid fa-file-export"></i></th>
-        <td class="creality_td">{{ creality.state_filename }}</td>
+        <td class="creality_td">{{ panel.state_filename }}</td>
     </tr>
 </table>
 {% endif %}

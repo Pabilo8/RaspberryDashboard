@@ -9,16 +9,16 @@
 </style>
 <div class="handle"><i class="fa-solid fa-swatchbook"></i> LED Color Changer</div>
 <label for="red">Red:</label>
-<input type="range" id="red" name="red" min="0" max="255" value="{{ led.r }}" style="accent-color: #FF5370"
+<input type="range" id="red" name="red" min="0" max="255" value="{{ panel.r }}" style="accent-color: #FF5370"
        oninput="updateColor()"><br>
 <label for="green">Green:</label>
-<input type="range" id="green" name="green" min="0" max="255" value="{{ led.g }}" style="accent-color: #C3E88D"
+<input type="range" id="green" name="green" min="0" max="255" value="{{ panel.g }}" style="accent-color: #C3E88D"
        oninput="updateColor()"><br>
 <label for="blue">Blue:</label>
-<input type="range" id="blue" name="blue" min="0" max="255" value="{{ led.b }}" style="accent-color: #82AAFF"
+<input type="range" id="blue" name="blue" min="0" max="255" value="{{ panel.b }}" style="accent-color: #82AAFF"
        oninput="updateColor()"><br>
 <label for="brightness">Brightness:</label>
-<input type="range" id="brightness" name="brightness" min="0" max="100" value="{{ led.brightness }}" style="accent-color: #B0BEC5"
+<input type="range" id="brightness" name="brightness" min="0" max="100" value="{{ panel.brightness }}" style="accent-color: #B0BEC5"
        oninput="updateColor()"><br>
 <div id="color-display" onclick="sendColor()"></div>
 

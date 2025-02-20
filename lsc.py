@@ -1,13 +1,14 @@
 import logging
 
 from flask import Flask, render_template
+from flask_sock import Sock
 
-import fridge
 from panels.base_panel import BasePanel
 from panels import led, weather, creality, tailscale, lan, fridge
 
 registered_panels = []
 app = Flask(__name__)
+sock = Sock(app)
 
 # Configure logging
 logging.basicConfig(
@@ -35,10 +36,10 @@ register_panel(weather.WeatherPanel())
 register_panel(creality.CrealityPanel())
 register_panel(tailscale.TailscalePanel())
 register_panel(lan.LANPanel())
-register_panel(fridge.FridgePanel())
+register_panel(fridge.FridgePanel(sock))
 
-
-def inject_panel_data():
+@app.route('/')
+def index():
     panel_data = {}
     panel_list = {}
     for registered_panel in registered_panels:
@@ -53,16 +54,9 @@ def inject_panel_data():
     for i in range(len(registered_panels), 8):
         panel_list[str(i)] = ""
 
-    logger.info(panel_data)
-    return panel_data
-
-
-app.context_processor(inject_panel_data)
-
-
-@app.route('/')
-def index():
-    return render_template('index.html')
+    print(panel_data)
+    print(panel_list)
+    return render_template('index.html', panel_data=panel_data, panel_list=panel_list)
 
 
 if __name__ == '__main__':

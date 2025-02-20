@@ -9,7 +9,7 @@
     </tr>
     </thead>
     <tbody>
-    {% for device in lan.devices %}
+    {% for device in panel.devices %}
     <tr>
         <td><i class="fa-solid fa-{{ device.conn }}"></i></td>
         <td onclick="copyText(this)">{{ device.hostname }}</td>

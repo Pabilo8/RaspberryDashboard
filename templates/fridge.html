@@ -1,56 +1,57 @@
-<div class="handle"><i class="fa-solid fa-snowflake"></i> Fridge Manager</div>
-<label for="barcode">Barcode:</label>
-<input type="number" id="barcode" oninput="limitDigits(this, 13)">
-<input type="button" value="Add Product" onclick="addProduct()">
+<div class="handle"><i class="fa-solid fa-snowflake"></i> Fridge</div>
+<table>
+    <tr>
+        <td>
+            <label for="barcode">Barcode:</label>
+            <input type="number" id="barcode" maxlength="13" minlength="13" placeholder="Barcode">
+        </td>
+        <td><input type="button" value="Add Product" onclick="addProduct()"></td>
+    </tr>
+</table>
 <hr>
 <table id="results">
     <thead>
-        <tr>
-            <th>Product Name</th>
-            <th>Quantity</th>
-            <th>Image</th>
-            <th></th>
-        </tr>
+    <tr>
+        <th>Product Name</th>
+        <th>Quantity</th>
+        <th>Image</th>
+        <th></th>
+    </tr>
     </thead>
-    <tbody>
-        {% for product in fridge.products %}
-        <tr>
-            <td>{{ product.name }}</td>
-            <td>{{ product.quantity }}</td>
-            <td><img src="{{ product.image_url }}" alt="{{ product.product_name }}" width="50"></td>
-            <td>
-                <input type="button" value="Remove" onclick="deleteProduct('{{ product.code }}')">
-            </td>
-        </tr>
-        {% endfor %}
+    <tbody id="products_list">
+    {% for product in panel.products %}
+    {% include 'product_row.html' %}
+    {% endfor %}
     </tbody>
 </table>
 <script>
-function addProduct() {
-    const barcode = document.getElementById('barcode').value;
-    document.getElementById('barcode').value = '';
-    fetch('/fridge/add_product', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({barcode: barcode})
-    })
-        .then(response => response.json())
-        .then(data => console.log(data));
-}
-
-function deleteProduct(code) {
-    fetch('/fridge/remove_product', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({barcode: code})
-    })
-        .then(response => response.json())
-        .then(data => console.log(data));
-
-}
-function limitDigits(input, maxDigits) {
-    if (input.value.length > maxDigits) {
-        input.value = input.value.slice(0, maxDigits);
+    function addProduct() {
+        const barcode = document.getElementById('barcode').value;
+        document.getElementById('barcode').value = '';
+        fetch('/fridge/add_product', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({barcode: barcode})
+        })
+            .then(response => response.json())
+            .then(data => console.log(data));
     }
-}
+
+    function deleteProduct(code) {
+        fetch('/fridge/remove_product', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({barcode: code})
+        })
+            .then(response => response.json())
+            .then(data => console.log(data));
+    }
+
+    const socket = new WebSocket("ws://" + location.host + "/fridge/ws");
+    socket.onmessage = function (event) {
+        event.data.text().then(function (text) {
+            console.log(text);
+            document.getElementById('products_list').innerHTML = text;
+        });
+    };
 </script>

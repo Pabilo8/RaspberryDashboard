@@ -32,7 +32,7 @@ class CrealityPanel(BasePanel):
         }
 
         try:
-            response = requests.post(url, json=payload)
+            response = requests.post(url, json=payload, timeout=0.5)
             response.raise_for_status()
             data = response.json().get('result', {}).get('status', {})
             self.log(str(data))
@@ -95,7 +95,7 @@ class CrealityPanel(BasePanel):
 
         url = f'http://{self.ip}:8080/?action=stream'
         try:
-            response = requests.get(url, stream=True)
+            response = requests.get(url, stream=True, timeout=0.5)
             response.raise_for_status()
             return Response(stream_with_context(response.iter_content(chunk_size=1024)),
                             content_type=response.headers['Content-Type'])

@@ -9,21 +9,23 @@
     </tr>
 </table>
 <hr>
-<table id="results">
-    <thead>
-    <tr>
-        <th>Product Name</th>
-        <th>Quantity</th>
-        <th>Image</th>
-        <th></th>
-    </tr>
-    </thead>
-    <tbody id="products_list">
-    {% for product in panel.products %}
-    {% include 'product_row.html' %}
-    {% endfor %}
-    </tbody>
-</table>
+<div style="overflow-y: auto">
+    <table id="results">
+        <thead>
+        <tr>
+            <th>Product Name</th>
+            <th>Quantity</th>
+            <th>Image</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody id="products_list">
+        {% for product in panel.products %}
+        {% include 'product_row.html' %}
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
 <script>
     function addProduct() {
         const barcode = document.getElementById('barcode').value;

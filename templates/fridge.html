@@ -1,24 +1,49 @@
 <div class="handle"><i class="fa-solid fa-snowflake"></i> Fridge</div>
-<table>
-    <tr>
-        <td>
-            <label for="barcode">Barcode:</label>
-            <input type="number" id="barcode" maxlength="13" minlength="13" placeholder="Barcode">
-        </td>
-        <td><input type="button" value="Add Product" onclick="addProduct()"></td>
-    </tr>
-</table>
+<style>
+    .fridge-image {
+        height: 72px;
+        width: 72px;
+        object-fit: cover;
+    }
+
+    #results {
+        width: 100%;
+    }
+    
+    #products {
+        overflow-y: auto;
+        height: 400px;
+    }
+
+    /* Width of the scrollbar */
+    #products::-webkit-scrollbar {
+        margin-right: 2px;
+    }
+
+    /* Track (background of the scrollbar) */
+    #products::-webkit-scrollbar-track {
+        background: #3b3b3b;
+    }
+
+    /* Handle (the draggable part) */
+    #products::-webkit-scrollbar-thumb {
+        background: #5f6467;
+        border-radius: 4px;
+    }
+
+    /* Handle on hover */
+    #products::-webkit-scrollbar-thumb:hover {
+        background: #696e71;
+    }
+
+</style>
+<div style="width: 100%; display: flex;">
+    <input type="number" id="barcode" maxlength="13" minlength="13" placeholder="Barcode" style="flex: 1;">
+    <input type="button" value="+" onclick="addProduct()" style="float: right;">
+</div>
 <hr>
-<div style="overflow-y: auto">
-    <table id="results">
-        <thead>
-        <tr>
-            <th>Product Name</th>
-            <th>Quantity</th>
-            <th>Image</th>
-            <th></th>
-        </tr>
-        </thead>
+<div id="products">
+    <table id="results" class="list_table">
         <tbody id="products_list">
         {% for product in panel.products %}
         {% include 'product_row.html' %}
@@ -40,6 +65,7 @@
     }
 
     function deleteProduct(code) {
+        console.log(code);
         fetch('/fridge/remove_product', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},

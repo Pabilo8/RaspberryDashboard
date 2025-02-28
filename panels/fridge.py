@@ -22,7 +22,7 @@ class FridgePanel(BasePanel):
         self.dirty = False
 
     def add_product(self, barcode):
-        url = f"https://world.openfoodfacts.org/api/v0/product/{barcode}.json?fields=product_name,image_url"
+        url = f"https://world.openfoodfacts.org/api/v0/product/{barcode}.json?fields=product_name,image_url,product_name_pl,product_name_en"
         data = requests.get(url).json()
         if (data["status"] == 0):
             self.logger.error(f"Product with barcode {barcode} not found")
@@ -30,20 +30,28 @@ class FridgePanel(BasePanel):
         if (self.table.search(Query().code == barcode)):
             self.table.update(increment('quantity'), Query().code == barcode)
             return
+        prod = data['product']
+        if 'product_name_pl' in prod:
+            pname = prod['product_name_pl']
+        elif 'product_name' in prod:
+            pname = prod['product_name']
+        else:
+            pname = prod['product_name_en']
+
         self.table.insert({"code": barcode,
-                           "name": data['product']['product_name'],
+                           "name": pname,
                            "quantity": 1,
                            "image_url": data['product']['image_url']})
-        self.dirty = True
 
     def add_product_route(self):
         data = request.get_json()
         self.add_product(data.get('barcode'))
+        self.dirty = True
         return jsonify({"status": "success"})
 
     def remove_product_route(self):
         data = request.get_json()
-        if (not self.table.search(Query().code == data.get('barcode'))):
+        if not self.table.search(Query().code == data.get('barcode')):
             return jsonify({"status": "error", "message": "Product not found"})
         self.table.update(decrement("quantity"), Query().code == data.get('barcode'))
         if self.table.get(Query().code == data.get('barcode'))['quantity'] < 1:

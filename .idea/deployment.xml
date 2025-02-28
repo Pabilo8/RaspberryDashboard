@@ -15,6 +15,7 @@
             <excludedPath path="/home/pabilo/deploy/include" />
             <excludedPath path="/home/pabilo/deploy/lib" />
             <excludedPath path="/home/pabilo/deploy/pyvenv.cfg" />
+            <excludedPath local="true" path="$PROJECT_DIR$/fridge_db.json" />
           </excludedPaths>
         </serverdata>
       </paths>

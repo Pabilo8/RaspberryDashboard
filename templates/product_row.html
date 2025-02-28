@@ -1,8 +1,8 @@
 <tr>
+    <td><img src="{{ product.image_url }}" alt="{{ product.product_name }}" width="48" class="fridge-image"></td>
     <td>{{ product.name }}</td>
-    <td>{{ product.quantity }}</td>
-    <td><img src="{{ product.image_url }}" alt="{{ product.product_name }}" width="50"></td>
+    <td style="white-space:nowrap;">{% if product.quantity != 1 %} x {{ product.quantity }}{% endif %}</td>
     <td>
-        <input type="button" value="Remove" onclick="deleteProduct('{{ product.code }}')">
+        <button onclick="deleteProduct('{{ product.code }}')"><i class="fa-solid fa-trash"></i></button>
     </td>
 </tr>

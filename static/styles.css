@@ -76,8 +76,57 @@ h1 {
     border-radius: 1px;
 }
 
-/* Input sliders and color display */
-input[type="range"] {
+button {
     width: 100%;
-    background-color: #555555;
+    background-color: #4e5254;
+    color: #a9b7c6;
+    border: none;
+    font-size: 1em;
+    text-align: center;
+    border-radius: 4px;
+    padding: 10px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+input {
+    background-color: #333737;
+    color: #a9b7c6;
+    border: none;
+    font-size: 1em;
+    text-align: center;
+    border-radius: 4px;
+}
+
+input[type="text"], input[type="number"] {
+    padding: 10px;
+}
+
+input[type="button"] {
+    background-color: #424547;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+input::placeholder {
+    color: #8C96A6;
+}
+
+table {
+    border-width: 0px;
+    border-collapse: collapse;
+}
+
+.list_table {
+    border-collapse: collapse;
+}
+
+.list_table tr:nth-child(odd) td, .list_table tr:nth-child(odd) th {
+    background-color: #3c3f41;
+}
+
+.list_table tr:nth-child(even) td, .list_table tr:nth-child(even) th {
+    background-color: #36383a;
 }

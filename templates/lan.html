@@ -1,4 +1,101 @@
 <div class="handle"><i class="fa-solid fa-network-wired"></i> LAN</div>
+<style>
+    .presence-list {
+        max-height: 300px;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 4px;
+    }
+
+    #results {
+        min-height: 100px;
+        overflow-y: auto;
+    }
+
+    /* Width of the scrollbar */
+    #results::-webkit-scrollbar {
+        margin-right: 2px;
+    }
+
+    /* Track (background of the scrollbar) */
+    #results::-webkit-scrollbar-track {
+        background: #3b3b3b;
+    }
+
+    /* Handle (the draggable part) */
+    #results::-webkit-scrollbar-thumb {
+        background: #5f6467;
+        border-radius: 4px;
+    }
+
+    /* Handle on hover */
+    #results::-webkit-scrollbar-thumb:hover {
+        background: #696e71;
+    }
+
+    .user {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 0 10px;
+        border: 1px solid #4e5254;
+        border-radius: 5px;
+    }
+
+    .user img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+    }
+
+    .image-not-present {
+        filter: grayscale(100%);
+    }
+
+    .user-name-status {
+        display: table;
+        width: 100%;
+    }
+
+    .user-name {
+        text-align: left;
+        display: table-cell;
+        margin-top: 5px;
+        font-weight: bold;
+    }
+
+    .user-status {
+        text-align: right;
+        display: table-cell;
+        font-style: oblique;
+        text-align: right;
+    }
+
+    .user-status.present {
+        color: #548054;
+    }
+
+    .user-status.absent {
+        color: #866060;
+    }
+</style>
+<div class="presence-list">
+    {% for user, details in panel.users.items() %}
+    <div class="user">
+        <img src="{{ url_for('static', filename='lan_users/' ~ user ~ '.jpg') }}"
+             class="{% if not details.present %}image-not-present{% endif %}"
+             onerror="this.onerror=null;this.src='{{ url_for('static', filename='no-user.jpg') }}';"
+             alt="{{ details.display_name }}">
+        <div class="user-name-status">
+            <div class="user-name">{{ details.display_name }}</div>
+            <div class="user-status {{ 'present' if details.present else 'absent' }}"><i class="fa-solid fa-circle"></i>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<hr>
 <table id="results" class="list_table">
     <thead>
     <tr>

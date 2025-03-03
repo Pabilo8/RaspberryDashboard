@@ -3,8 +3,8 @@ import logging
 from flask import Flask, render_template
 from flask_sock import Sock
 
+from panels import led, weather, creality, tailscale, lan, fridge, camera
 from panels.base_panel import BasePanel
-from panels import led, weather, creality, tailscale, lan, fridge
 
 registered_panels = []
 app = Flask(__name__)
@@ -37,6 +37,7 @@ register_panel(creality.CrealityPanel())
 register_panel(tailscale.TailscalePanel())
 register_panel(lan.LANPanel())
 register_panel(fridge.FridgePanel(sock))
+register_panel(camera.CameraPanel())
 
 @app.route('/')
 def index():

@@ -39,7 +39,7 @@
 </style>
 <img src='/creality/webcam' width="480" style="width: 100%"
      onerror="this.onerror=null;this.src='{{ url_for('static', filename='no-image.png') }}';" alt="Printer Offline">
-</object>
+
 <center>
     {{ panel.done }}
     <progress id="printing" value="{{ panel.progress }}" max="100">{{ panel.progress }}%

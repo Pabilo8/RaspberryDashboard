@@ -1,6 +1,7 @@
-# panels/lan.py
-from panels.base_panel import BasePanel
+import json
 import telnetlib
+
+from panels.base_panel import BasePanel
 
 
 class LANPanel(BasePanel):
@@ -9,6 +10,12 @@ class LANPanel(BasePanel):
         self.host = None
         self.user = None
         self.password = None
+        self.users = self.load_users()
+
+    def load_users(self):
+        with open('settings.json', 'r') as f:
+            settings = json.load(f)
+        return settings.get('lan', {}).get('users', {})
 
     def get_lan_devices(self):
         if self.host is None or self.user is None or self.password is None:
@@ -57,8 +64,19 @@ class LANPanel(BasePanel):
             self.log(f"Error: {e}")
             return []
 
+    def get_user_presence(self, devices):
+        user_presence = {user: False for user in self.users}
+        for device in devices:
+            for user, user_devices in self.users.items():
+                if device['hostname'] in user_devices:
+                    user_presence[user] = True
+        return user_presence
+
     def get_data(self):
-        return {'devices': self.get_lan_devices()}
+        devices = self.get_lan_devices()
+        user_presence = self.get_user_presence(devices)
+        users = {user.split(':')[0]: {'display_name': user.split(':')[1], 'present': present} for user, present in user_presence.items()}
+        return {'devices': devices, 'users': users}
 
     def set_config(self, data):
         self.host = data.get('host', self.host)

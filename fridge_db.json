@@ -1,1 +1,166 @@
-{"products": {"1": {"code": 5901359000237, "name": "Tyskie Grand Prix", "quantity": 2, "image_url": "https://images.openfoodfacts.org/images/products/590/135/900/0237/front_fr.5.400.jpg"}, "2": {"code": "5900334006738", "name": "Tymbark Jab\u0142ko Wi\u015bnia", "quantity": 4, "image_url": "https://images.openfoodfacts.org/images/products/590/033/400/6738/front_pl.4.400.jpg"}}}
+{
+  "products": {
+    "2": {
+      "code": "5900512300108",
+      "name": "Mas\u0142o extra",
+      "quantity": 1,
+      "image_url": "https://images.openfoodfacts.org/images/products/590/051/230/0108/front_en.46.400.jpg"
+    },
+    "3": {
+      "code": "4067700013859",
+      "name": "J\u00e4germeister",
+      "quantity": 1,
+      "image_url": "https://images.openfoodfacts.org/images/products/406/770/001/3859/front_fr.3.400.jpg"
+    },
+    "4": {
+      "code": "5900242001566",
+      "name": "Majonez Kielecki",
+      "quantity": 1,
+      "image_url": "https://images.openfoodfacts.org/images/products/590/024/200/1566/front_pl.23.400.jpg"
+    },
+    "5": {
+      "code": "8445290621450",
+      "name": "Majonez dekoracyjny",
+      "quantity": 1,
+      "image_url": "https://images.openfoodfacts.org/images/products/844/529/062/1450/front_pl.16.400.jpg"
+    },
+    "7": {
+      "code": "5906425143856",
+      "name": "Sos Mayo Sriracha z chili i czosnkiem",
+      "quantity": 1,
+      "image_url": "https://images.openfoodfacts.org/images/products/590/642/514/3856/front_pl.3.400.jpg"
+    },
+    "8": {
+      "code": "7613036858670",
+      "name": "Ketchup \u0142agodny",
+      "quantity": 1,
+      "image_url": "https://images.openfoodfacts.org/images/products/761/303/685/8670/front_pl.4.400.jpg"
+    },
+    "9": {
+      "code": "5901044020434",
+      "name": "Sos tysi\u0105ca wysp",
+      "quantity": 1,
+      "image_url": "https://images.openfoodfacts.org/images/products/590/104/402/0434/front_pl.20.400.jpg"
+    },
+    "11": {
+      "code": "5907180315847",
+      "name": "\u015amietana 18%",
+      "quantity": 1,
+      "image_url": "https://images.openfoodfacts.org/images/products/590/718/031/5847/front_en.3.400.jpg"
+    },
+    "13": {
+      "code": "4903001017724",
+      "name": "Sauce de soja",
+      "quantity": 3,
+      "image_url": "https://images.openfoodfacts.org/images/products/490/300/101/7724/front_fr.17.400.jpg"
+    },
+    "15": {
+      "code": "4056489774747",
+      "name": "",
+      "quantity": 1,
+      "image_url": "https://images.openfoodfacts.org/images/products/405/648/977/4747/front_ro.12.400.jpg"
+    },
+    "16": {
+      "code": "5901713001016",
+      "name": "Fasola czerwona",
+      "quantity": 1,
+      "image_url": "https://images.openfoodfacts.org/images/products/590/171/300/1016/front_en.7.400.jpg"
+    },
+    "17": {
+      "code": "5900531004025",
+      "name": "Twar\u00f3g wiejski t\u0142usty",
+      "quantity": 1,
+      "image_url": "https://images.openfoodfacts.org/images/products/590/053/100/4025/front_en.3.400.jpg"
+    },
+    "18": {
+      "code": "4823097405444",
+      "name": "Sos Krasnodarski",
+      "quantity": 1,
+      "image_url": "https://images.openfoodfacts.org/images/products/482/309/740/5444/front_pl.3.400.jpg"
+    },
+    "20": {
+      "code": "5900567026121",
+      "name": "Szynka Od Szwagra",
+      "quantity": 1,
+      "image_url": "https://images.openfoodfacts.org/images/products/590/056/702/6121/front_en.5.400.jpg"
+    },
+    "22": {
+      "code": "5904215151647",
+      "name": "Boczek dojrzewaj\u0105cy w\u0119dzony",
+      "quantity": 2,
+      "image_url": "https://images.openfoodfacts.org/images/products/590/421/515/1647/front_pl.3.400.jpg"
+    },
+    "23": {
+      "code": "8718692615717",
+      "name": "sodastream Waters Zeros Orange Mango",
+      "quantity": 1,
+      "image_url": "https://images.openfoodfacts.org/images/products/871/869/261/5717/front_fr.37.400.jpg"
+    },
+    "24": {
+      "code": "8719128117232",
+      "name": "Pepsi Cola Konsentrat, 440 ml",
+      "quantity": 1,
+      "image_url": "https://images.openfoodfacts.org/images/products/871/912/811/7232/front_en.47.400.jpg"
+    },
+    "25": {
+      "code": "5904215179474",
+      "name": "Fasola bia\u0142a w sosie pomidorowym",
+      "quantity": 2,
+      "image_url": "https://images.openfoodfacts.org/images/products/590/421/517/9474/front_pl.3.400.jpg"
+    },
+    "26": {
+      "code": "5900962900934",
+      "name": "Hamburger z kurczaka",
+      "quantity": 1,
+      "image_url": "https://images.openfoodfacts.org/images/products/590/096/290/0934/front_pl.3.400.jpg"
+    },
+    "28": {
+      "code": "5902768454468",
+      "name": "Pomidor daktylowy",
+      "quantity": 1,
+      "image_url": "https://images.openfoodfacts.org/images/products/590/276/845/4468/front_pl.3.400.jpg"
+    },
+    "30": {
+      "code": "5906425141333",
+      "name": "Sos czosnkowy",
+      "quantity": 1,
+      "image_url": "https://images.openfoodfacts.org/images/products/590/642/514/1333/front_en.22.400.jpg"
+    },
+    "31": {
+      "code": "4823097405420",
+      "name": "Sos Cherso\u0144ski",
+      "quantity": 1,
+      "image_url": "https://images.openfoodfacts.org/images/products/482/309/740/5420/front_pl.3.400.jpg"
+    },
+    "32": {
+      "code": "5900820000011",
+      "name": "\u0141aciate 3,2%",
+      "quantity": 1,
+      "image_url": "https://images.openfoodfacts.org/images/products/590/082/000/0011/front_en.50.400.jpg"
+    },
+    "33": {
+      "code": "5907799013325",
+      "name": "Chicken strips panierowane spicy",
+      "quantity": 1,
+      "image_url": "https://images.openfoodfacts.org/images/products/590/779/901/3325/front_pl.3.400.jpg"
+    },
+    "34": {
+      "code": "5904194002497",
+      "name": "Strogonow z wieprzowin\u0105 i warzywami",
+      "quantity": 1,
+      "image_url": "https://images.openfoodfacts.org/images/products/590/419/400/2497/front_pl.5.400.jpg"
+    },
+    "35": {
+      "code": "5900334013552",
+      "name": "Nap\u00f3j Pomaranczowy",
+      "quantity": 1,
+      "image_url": "https://images.openfoodfacts.org/images/products/590/033/401/3552/front_pl.8.400.jpg"
+    },
+    "36": {
+      "code": "5900820008642",
+      "name": "Jogurt August\u00f3w",
+      "quantity": 1,
+      "image_url": "https://images.openfoodfacts.org/images/products/590/082/000/8642/front_pl.3.400.jpg"
+    }
+  }
+}

@@ -1,0 +1,60 @@
+<div class="handle">
+    <i class="fa-solid fa-camera"></i> {{ panel.name }}
+    <div class="camera_state {{ panel.state }}"><i class="fa-solid fa-circle"></i> {{ panel.state }}</div>
+</div>
+<style>
+    .camera_state {
+        font-style: oblique;
+        float: right;
+        text-align: right;
+    }
+
+    .camera_state.off {
+        color: #866060;
+    }
+
+    .camera_state.error {
+        color: #7c445b;
+    }
+
+    .camera_state.on {
+        color: #548054;
+    }
+</style>
+<img src="{% if panel.state == 'error' %}{{ url_for('static', filename='no-image.png') }}{% else %}/camera/webcam{% endif %}" width="480" style="width: 100%" alt="Camera Offline">
+
+<div>
+    <label for="brightness">Brightness:</label>
+    <input type="range" id="brightness" name="brightness" min="0" max="100" value="{{ panel.brightness }}" oninput="updateCameraSettings()">
+</div>
+<div>
+    <label for="contrast">Contrast:</label>
+    <input type="range" id="contrast" name="contrast" min="0" max="100" value="{{ panel.contrast }}" oninput="updateCameraSettings()">
+</div>
+<div>
+    <label for="saturation">Saturation:</label>
+    <input type="range" id="saturation" name="saturation" min="0" max="100" value="{{ panel.saturation }}" oninput="updateCameraSettings()">
+</div>
+
+<script>
+    function updateCameraSettings() {
+        const brightness = document.getElementById('brightness').value;
+        const contrast = document.getElementById('contrast').value;
+        const saturation = document.getElementById('saturation').value;
+
+        fetch('/camera/set_camera_settings', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ brightness, contrast, saturation })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    }
+</script>

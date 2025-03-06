@@ -69,10 +69,12 @@ class CameraPanel(BasePanel):
         self.brightness = data.get('brightness', self.brightness)
         self.contrast = data.get('contrast', self.contrast)
         self.saturation = data.get('saturation', self.saturation)
+        self.state = "on" if data.get('enabled', True) else "off"
         self.save_config({
             'brightness': self.brightness,
             'contrast': self.contrast,
-            'saturation': self.saturation
+            'saturation': self.saturation,
+            'enabled': self.state != "off"
         })
         return jsonify({"status": "success", "brightness": self.brightness, "contrast": self.contrast,
-                        "saturation": self.saturation})
+                        "saturation": self.saturation, "enabled": self.state != "off"})

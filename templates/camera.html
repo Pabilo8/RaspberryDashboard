@@ -35,19 +35,24 @@
     <label for="saturation">Saturation:</label>
     <input type="range" id="saturation" name="saturation" min="0" max="100" value="{{ panel.saturation }}" oninput="updateCameraSettings()">
 </div>
+<div>
+    <label for="enabled">Enabled:</label>
+    <input type="checkbox" id="enabled" name="enabled" {% if panel.state == 'on' %}checked{% endif %} onchange="updateCameraSettings()">
+</div>
 
 <script>
     function updateCameraSettings() {
         const brightness = document.getElementById('brightness').value;
         const contrast = document.getElementById('contrast').value;
         const saturation = document.getElementById('saturation').value;
+        const enabled = document.getElementById('enabled').checked;
 
         fetch('/camera/set_camera_settings', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ brightness, contrast, saturation })
+            body: JSON.stringify({ brightness, contrast, saturation, enabled })
         })
         .then(response => response.json())
         .then(data => {

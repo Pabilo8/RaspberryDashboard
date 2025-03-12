@@ -51,8 +51,8 @@
         inp.remove();
     }
 
-    function sortTable(columnIndex) {
-        var table = document.getElementById("results");
+    function sortTable(tableName, columnIndex) {
+        var table = document.getElementById(tableName);
         var rows = Array.from(table.rows).slice(1);
         var isAscending = table.getAttribute("data-sort-asc") === "true";
         table.setAttribute("data-sort-asc", !isAscending);

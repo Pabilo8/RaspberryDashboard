@@ -130,3 +130,7 @@ table {
 .list_table tr:nth-child(even) td, .list_table tr:nth-child(even) th {
     background-color: #36383a;
 }
+
+.table-copy-field {
+    cursor: pointer;
+}

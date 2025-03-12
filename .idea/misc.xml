@@ -3,5 +3,8 @@
   <component name="Black">
     <option name="sdkName" value="Python 3.12 (LedStripControl)" />
   </component>
+  <component name="ExtraIDETweaksSettingsProject">
+    <option name="enableOpenEditorsShowRecentFiles" value="false" />
+  </component>
   <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.12 (LedStripControl)" project-jdk-type="Python SDK" />
 </project>

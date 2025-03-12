@@ -35,7 +35,7 @@ register_panel(led.LEDPanel())
 register_panel(weather.WeatherPanel())
 register_panel(creality.CrealityPanel())
 register_panel(tailscale.TailscalePanel())
-register_panel(lan.LANPanel())
+register_panel(lan.LANPanel(sock))
 register_panel(fridge.FridgePanel(sock))
 register_panel(camera.CameraPanel())
 

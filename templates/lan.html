@@ -7,29 +7,29 @@
         gap: 4px;
     }
 
-    #results {
+    #lan-devices {
         min-height: 100px;
         overflow-y: auto;
     }
 
     /* Width of the scrollbar */
-    #results::-webkit-scrollbar {
+    #lan-devices::-webkit-scrollbar {
         margin-right: 2px;
     }
 
     /* Track (background of the scrollbar) */
-    #results::-webkit-scrollbar-track {
+    #lan-devices::-webkit-scrollbar-track {
         background: #3b3b3b;
     }
 
     /* Handle (the draggable part) */
-    #results::-webkit-scrollbar-thumb {
+    #lan-devices::-webkit-scrollbar-thumb {
         background: #5f6467;
         border-radius: 4px;
     }
 
     /* Handle on hover */
-    #results::-webkit-scrollbar-thumb:hover {
+    #lan-devices::-webkit-scrollbar-thumb:hover {
         background: #696e71;
     }
 
@@ -82,7 +82,7 @@
 </style>
 <div class="presence-list">
     {% for user, details in panel.users.items() %}
-    <div class="user">
+    <div class="user" id="lan-user-{{ user }}">
         <img src="{{ url_for('static', filename='lan_users/' ~ user ~ '.jpg') }}"
              class="{% if not details.present %}image-not-present{% endif %}"
              onerror="this.onerror=null;this.src='{{ url_for('static', filename='no-user.jpg') }}';"
@@ -96,23 +96,30 @@
     {% endfor %}
 </div>
 <hr>
-<table id="results" class="list_table">
+<table id="lan-devices" class="list_table">
     <thead>
     <tr>
         <th></th>
-        <th onclick="sortTable(1)">Device</th>
-        <th onclick="sortTable(2)">IP Address</th>
-        <th onclick="sortTable(3)">MAC Address</th>
+        <th onclick="sortTable('lan-devices',1)">Device</th>
+        <th onclick="sortTable('lan-devices',2)">IP Address</th>
+        <th onclick="sortTable('lan-devices',3)">MAC Address</th>
     </tr>
     </thead>
-    <tbody>
+    <tbody id="lan-devices-entries">
     {% for device in panel.devices %}
-    <tr>
-        <td><i class="fa-solid fa-{{ device.conn }}"></i></td>
-        <td onclick="copyText(this)">{{ device.hostname }}</td>
-        <td onclick="copyText(this)">{{ device.ip_address }}</td>
-        <td onclick="copyText(this)">{{ device.mac_address }}</td>
-    </tr>
+        {% include 'lan_entry.html' %}
     {% endfor %}
     </tbody>
 </table>
+
+<script>
+    const lanSocket = new WebSocket("ws://" + location.host + "/lan/ws");
+    lanSocket.onmessage = function (event) {
+        const message = JSON.parse(event.data);
+        if (message.type === 'devices') {
+            document.getElementById("lan-devices-entries").innerHTML = message.data;
+        } else if (message.type === 'users') {
+            document.querySelector(".presence-list").innerHTML = message.data;
+        }
+    };
+</script>

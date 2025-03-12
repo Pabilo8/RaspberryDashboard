@@ -25,24 +25,24 @@
     </tr>
 </table>
 <hr>
-<table id="results" class="list_table">
+<table id="tailscale-devices" class="list_table">
     <thead>
     <tr>
-        <th onclick="sortTable(0)">Owner</th>
-        <th onclick="sortTable(1)">Device</th>
+        <th onclick="sortTable('tailscale-devices',0)">Owner</th>
+        <th onclick="sortTable('tailscale-devices',1)">Device</th>
         <th>IP Address</th>
-        <th onclick="sortTable(3)">OS</th>
-        <th onclick="sortTable(4)">Status</th>
+        <th onclick="sortTable('tailscale-devices',3)">OS</th>
+        <th onclick="sortTable('tailscale-devices',4)">Status</th>
     </tr>
     </thead>
     <tbody>
     {% for device in panel.devices %}
     <tr>
-        <td onclick="copyText(this)">{{ device.owner }}</td>
-        <td onclick="copyText(this)">{{ device.device_name }}</td>
-        <td onclick="copyText(this)">{{ device.ip_address }}</td>
-        <td onclick="copyText(this)">{{ device.os }}</td>
-        <td onclick="copyText(this)" class="indicator {{ device.status }}"><i class="fa-solid fa-circle"></i>{{ device.status }}</td>
+        <td class="table-copy-field" onclick="copyText(this)">{{ device.owner }}</td>
+        <td class="table-copy-field" onclick="copyText(this)">{{ device.device_name }}</td>
+        <td class="table-copy-field" onclick="copyText(this)">{{ device.ip_address }}</td>
+        <td class="table-copy-field" onclick="copyText(this)">{{ device.os }}</td>
+        <td class="table-copy-field indicator {{ device.status }}" onclick="copyText(this)"><i class="fa-solid fa-circle"></i>{{ device.status }}</td>
     </tr>
     {% endfor %}
     </tbody>

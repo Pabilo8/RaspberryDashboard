@@ -1,3 +1,5 @@
+<div class="handle"><i class="fa-solid fa-swatchbook"></i> LED Color Changer</div>
+
 <style>
     #color-display {
         margin-top: 10px;
@@ -5,9 +7,31 @@
         height: 50px;
         background-color: rgb(128, 128, 128);
         cursor: pointer;
+        text-align: center;
+    }
+
+    #preset-list {
+        max-height: 64px;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 4px;
     }
 </style>
-<div class="handle"><i class="fa-solid fa-swatchbook"></i> LED Color Changer</div>
+
+<div id="preset-list">
+    {% for preset_name, preset in panel.presets.items() %}
+    <button
+            {% if preset.representing_color %}
+            style="background-color: {{ preset.representing_color }}"
+            {% else %}
+            style="background-color: rgb({{ preset.r }}, {{ preset.g }}, {{ preset.b }})"
+            {% endif %}
+            onclick="sendPreset('{{ preset_name }}')">
+        <i class="{{ preset.icon }}"></i><br>
+        {{ preset_name }}
+    </button>
+    {% endfor %}
+</div>
 <label for="red">Red:</label>
 <input type="range" id="red" name="red" min="0" max="255" value="{{ panel.r }}" style="
     width: 100%;accent-color: #FF5370"
@@ -24,7 +48,7 @@
 <input type="range" id="brightness" name="brightness" min="0" max="100" value="{{ panel.brightness }}" style="
     width: 100%;accent-color: #B0BEC5"
        oninput="updateColor()"><br>
-<div id="color-display" onclick="sendColor()"></div>
+<div id="color-display" onclick="sendColor()">Set Color</div>
 
 <script>
     function updateColor() {
@@ -41,6 +65,34 @@
         // Update the preview box color
         const previewBox = document.getElementById('color-display');
         previewBox.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+    }
+
+    function sendPreset(presetName) {
+        const preset = {
+        {
+            panel.presets | tojson
+        }
+    }
+        ;
+        const selectedPreset = preset[presetName];
+
+        if (selectedPreset.animation) {
+            fetch('/led/start_animation', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    preset: presetName
+                })
+            })
+                .then(response => response.json())
+                .then(data => console.log(data));
+        } else {
+            document.getElementById('red').value = selectedPreset.r / 255.0 * 100;
+            document.getElementById('green').value = selectedPreset.g / 255.0 * 100;
+            document.getElementById('blue').value = selectedPreset.b / 255.0 * 100;
+            updateColor();
+            sendColor();
+        }
     }
 
     function sendColor() {

@@ -1,5 +1,61 @@
 <div class="handle"><i class="fa-solid fa-swatchbook"></i> LED Color Changer</div>
 
+<script>
+    function updateColor() {
+        const red = parseInt(document.getElementById('red').value);
+        const green = parseInt(document.getElementById('green').value);
+        const blue = parseInt(document.getElementById('blue').value);
+        const brightness = parseInt(document.getElementById('brightness').value) / 100;
+
+        // Calculate the final RGB values based on brightness
+        const r = Math.round(red * brightness);
+        const g = Math.round(green * brightness);
+        const b = Math.round(blue * brightness);
+
+        // Update the preview box color
+        const previewBox = document.getElementById('color-display');
+        previewBox.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+    }
+
+    function sendPreset(presetName) {
+        const preset = JSON.parse(`{{ panel.presets | tojson }}`);
+        const selectedPreset = preset[presetName];
+
+        if (selectedPreset.animation) {
+            fetch('/led/start_animation', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    preset: presetName
+                })
+            })
+                .then(response => response.json())
+                .then(data => console.log(data));
+        } else {
+            document.getElementById('red').value = selectedPreset.r / 255.0 * 100;
+            document.getElementById('green').value = selectedPreset.g / 255.0 * 100;
+            document.getElementById('blue').value = selectedPreset.b / 255.0 * 100;
+            updateColor();
+            sendColor();
+        }
+    }
+
+    function sendColor() {
+        fetch('/led/set_color', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                r: parseInt(document.getElementById('red').value),
+                g: parseInt(document.getElementById('green').value),
+                b: parseInt(document.getElementById('blue').value),
+                brightness: parseInt(document.getElementById('brightness').value)
+            })
+        })
+            .then(response => response.json())
+            .then(data => console.log(data));
+    }
+</script>
+
 <style>
     #color-display {
         margin-top: 10px;
@@ -49,64 +105,3 @@
     width: 100%;accent-color: #B0BEC5"
        oninput="updateColor()"><br>
 <div id="color-display" onclick="sendColor()">Set Color</div>
-
-<script>
-    function updateColor() {
-        const red = parseInt(document.getElementById('red').value);
-        const green = parseInt(document.getElementById('green').value);
-        const blue = parseInt(document.getElementById('blue').value);
-        const brightness = parseInt(document.getElementById('brightness').value) / 100;
-
-        // Calculate the final RGB values based on brightness
-        const r = Math.round(red * brightness);
-        const g = Math.round(green * brightness);
-        const b = Math.round(blue * brightness);
-
-        // Update the preview box color
-        const previewBox = document.getElementById('color-display');
-        previewBox.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
-    }
-
-    function sendPreset(presetName) {
-        const preset = {
-        {
-            panel.presets | tojson
-        }
-    }
-        ;
-        const selectedPreset = preset[presetName];
-
-        if (selectedPreset.animation) {
-            fetch('/led/start_animation', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                    preset: presetName
-                })
-            })
-                .then(response => response.json())
-                .then(data => console.log(data));
-        } else {
-            document.getElementById('red').value = selectedPreset.r / 255.0 * 100;
-            document.getElementById('green').value = selectedPreset.g / 255.0 * 100;
-            document.getElementById('blue').value = selectedPreset.b / 255.0 * 100;
-            updateColor();
-            sendColor();
-        }
-    }
-
-    function sendColor() {
-        fetch('/led/set_color', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                r: parseInt(document.getElementById('red').value),
-                g: parseInt(document.getElementById('green').value),
-                b: parseInt(document.getElementById('blue').value),
-                brightness: parseInt(document.getElementById('brightness').value)
-            })
-        })
-            .then(response => response.json())
-            .then(data => console.log(data));
-    }
-</script>

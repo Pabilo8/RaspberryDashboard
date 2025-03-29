@@ -103,6 +103,10 @@ input[type="text"], input[type="number"] {
     padding: 10px;
 }
 
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
 input[type="button"] {
     background-color: #424547;
     border: none;
@@ -136,6 +140,13 @@ table {
 
 .table-copy-field {
     cursor: copy;
+}
+
+.icon {
+    font-variation-settings: "FILL" 1;
+    position: relative;
+    top: 3px;
+    /*left: 10px; !* Moves right *!*/
 }
 
 /** Status Indicator */

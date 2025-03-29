@@ -1,4 +1,4 @@
-{% with name="LAN", icon="network-wired" %}
+{% with name="LAN", icon="network" %}
 {% include 'panel_base.html' %}
 {% endwith %}
 <style>
@@ -85,7 +85,7 @@
         <div class="user-name-status">
             <div class="user-name">{{ details.display_name }}</div>
             <div class="user-status state {{ 'on' if details.present else 'off' }}">
-                {{ 'circle' | icon }}
+                {{ ('on' if details.present else 'off') | status_dot }}
             </div>
         </div>
     </div>

@@ -8,19 +8,23 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"> <!-- Main styles -->
     <link rel="stylesheet" href="{{ url_for('static', filename='search.css') }}"> <!-- Search bar styles -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
-    <script src="https://kit.fontawesome.com/7600225419.js" crossorigin="anonymous"></script>
+    <!--    <script src="https://kit.fontawesome.com/7600225419.js" crossorigin="anonymous"></script>-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lucide-static/font/lucide.css">
 </head>
 <body>
 <h1>Raspberry-Pi Control Dashboard</h1>
+
+{% if search_bar %}
 <!-- Add Google Search bar above the grid -->
 <script async src="https://cse.google.com/cse.js?cx=46115232c08f14310"></script>
 <div class="search-container">
     <div class="gcse-searchbox-only" data-resultsurl="https://google.com/search"></div>
 </div>
+{% endif %}
 
 <div class="grid-container" id="grid">
     <!-- Panels -->
-{% for pindex, pname in panel_list.items() %}
+    {% for pindex, pname in panel_list.items() %}
     <div class="grid-item" id="slot-{{ pindex }}">
         <div class="panel" id="{{ pname }}-panel">
             {% if not pname == '' %}
@@ -30,7 +34,7 @@
             {% endif %}
         </div>
     </div>
-{% endfor %}
+    {% endfor %}
 </div>
 <script>
     // Initialize SortableJS for the grid container with a handle

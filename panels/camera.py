@@ -3,8 +3,7 @@ import time
 
 from flask import Response, request, jsonify
 
-from base_panel import ActivityState
-from panels.base_panel import BasePanel
+from panels.base_panel import BasePanel, ActivityState
 
 # Path for the temporary image that fswebcam will capture
 IMAGE_PATH = '/tmp/webcam.jpg'

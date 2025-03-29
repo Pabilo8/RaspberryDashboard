@@ -1,4 +1,4 @@
-{% with name=panel.name, icon="camera", state={"class": panel.state, "content": panel.state} %}
+{% with name=panel.name, icon="video", state={"class": panel.state, "content": panel.state} %}
     {% include 'panel_base.html' %}
 {% endwith %}
 <img src="{% if panel.state == 'error' %}{{ url_for('static', filename='no-image.png') }}{% else %}/camera/webcam{% endif %}" width="480" style="width: 100%" alt="Camera Offline">

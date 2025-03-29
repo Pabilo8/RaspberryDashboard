@@ -1,4 +1,4 @@
-{% with name="Tailscale", icon="circle-nodes" %}
+{% with name="Tailscale", icon="share-2" %}
 {% include 'panel_base.html' %}
 {% endwith %}
 <table style="width: 100%">
@@ -30,7 +30,7 @@
         <td class="table-copy-field" onclick="copyText(this)">{{ device.ip_address }}</td>
         <td class="table-copy-field" onclick="copyText(this)">{{ device.os }}</td>
         <td class="table-copy-field state {{ device.status }}" onclick="copyText(this)">
-            {{ 'circle' | icon }}{{ device.status }}
+            {{ device.status | status_dot }}{{ device.status }}
         </td>
     </tr>
     {% endfor %}

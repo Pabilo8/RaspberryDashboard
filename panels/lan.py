@@ -50,7 +50,7 @@ class LANPanel(BasePanel):
 
     def check_for_updates(self):
         new_data = self.get_data()
-        if new_data['devices'] != self.last_data['devices']:
+        if self.last_data['devices'] is None or new_data['devices'] != self.last_data['devices']:
             self.dirty_devices = True
         if new_data['users'] != self.last_data['users']:
             self.dirty_users = True
@@ -94,7 +94,7 @@ class LANPanel(BasePanel):
                             hostname = parts[0] if parts[0] != '?' else 'Unknown'
                             ip_address = parts[1].strip('()')
                             mac_address = parts[3].lower()
-                            conn = "wifi" if mac_address in wireless_macs else "ethernet"
+                            conn = "wifi" if mac_address in wireless_macs else "ethernet-port"
                             devices.append({'hostname': hostname, 'ip_address': ip_address, 'mac_address': mac_address,
                                             'conn': conn})
 

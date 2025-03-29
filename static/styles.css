@@ -115,6 +115,8 @@ input::placeholder {
     color: #8C96A6;
 }
 
+/** Table Styling */
+
 table {
     border-width: 0px;
     border-collapse: collapse;
@@ -133,5 +135,41 @@ table {
 }
 
 .table-copy-field {
-    cursor: pointer;
+    cursor: copy;
+}
+
+/** Status Indicator */
+
+.panel_state {
+    font-style: oblique;
+    float: right;
+    text-align: right;
+}
+
+.state {
+    font-style: oblique;
+}
+
+.state.on {
+    color: #548054;
+}
+
+.state.working {
+    color: #bc9151;
+}
+
+.state.off {
+    color: #866060;
+}
+
+.state.complete {
+    color: #596b8f;
+}
+
+.state.idle {
+    color: #988b68;
+}
+
+.state.error {
+    color: #7c445b;
 }

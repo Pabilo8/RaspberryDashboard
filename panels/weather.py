@@ -13,21 +13,21 @@ class WeatherPanel(BasePanel):
         day = code[2] == 'd'
         match code[0:2]:
             case '01':
-                return 'fa-sun' if day else 'fa-moon'
+                return 'sun' if day else 'moon'
             case '02':
-                return 'fa-cloud-sun' if day else 'fa-cloud-moon'
+                return 'cloud-sun' if day else 'cloud-moon'
             case '03' | '04':
-                return 'fa-cloud'
+                return 'cloud'
             case '09':
-                return 'fa-cloud-rain'
+                return 'cloud-rain'
             case '10':
-                return 'fa-cloud-showers-heavy'
+                return 'cloud-showers-heavy'
             case '11':
-                return 'fa-cloud-bolt'
+                return 'cloud-bolt'
             case '13':
-                return 'fa-snowflake'
+                return 'snowflake'
             case '50':
-                return 'fa-smog'
+                return 'smog'
         return code
 
     def get_openweather(self):

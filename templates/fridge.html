@@ -1,4 +1,6 @@
-<div class="handle"><i class="fa-solid fa-snowflake"></i> Fridge</div>
+{% with name="Fridge", icon="snowflake" %}
+{% include 'panel_base.html' %}
+{% endwith %}
 <style>
     .fridge-image {
         height: 72px;
@@ -9,7 +11,7 @@
     #results {
         width: 100%;
     }
-    
+
     #products {
         overflow-y: auto;
         height: 400px;

@@ -1,5 +1,6 @@
-<div class="handle"><i class="fa-solid fa-swatchbook"></i> LED Color Changer</div>
-
+{% with name="LED Strip Control", icon="swatchbook" %}
+{% include 'panel_base.html' %}
+{% endwith %}
 <script>
     function updateColor() {
         const red = parseInt(document.getElementById('red').value);
@@ -83,7 +84,7 @@
             style="background-color: rgb({{ preset.r }}, {{ preset.g }}, {{ preset.b }})"
             {% endif %}
             onclick="sendPreset('{{ preset_name }}')">
-        <i class="{{ preset.icon }}"></i><br>
+        {{ preset.icon | icon }}<br>
         {{ preset_name }}
     </button>
     {% endfor %}

@@ -2,12 +2,14 @@
 import json
 import logging
 import os
+from enum import Enum
 
 from flask import Blueprint
 from flask_sock import Sock
 
+
 class BasePanel:
-    def __init__(self, name, url_prefix, sock:Sock=None):
+    def __init__(self, name, url_prefix, sock: Sock = None):
         self.bp = Blueprint(name, __name__, url_prefix=url_prefix)
         self.sock = sock
         self.logger = logging.getLogger(name)
@@ -51,10 +53,25 @@ class BasePanel:
         except Exception as e:
             self.log(f"Error saving configuration: {e}", level=logging.ERROR)
 
-
     def get_data(self):
         raise NotImplementedError("Subclasses should implement this method!")
 
     def set_config(self, data):
         raise NotImplementedError("Subclasses should implement this method!")
 
+class ActivityState(Enum):
+    ON = 'on'
+    WORKING = 'working'
+    OFF = 'off'
+    COMPLETE = 'complete'
+    IDLE = 'idle'
+    ERROR = 'error'
+
+    def isInactive(self):
+        return self in [ActivityState.OFF, ActivityState.ERROR]
+
+    def isReady(self):
+        return self in [ActivityState.ON, ActivityState.COMPLETE, ActivityState.IDLE]
+
+    def isBusy(self):
+        return self in [ActivityState.WORKING]

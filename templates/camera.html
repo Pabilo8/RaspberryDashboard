@@ -1,26 +1,6 @@
-<div class="handle">
-    <i class="fa-solid fa-camera"></i> {{ panel.name }}
-    <div class="camera_state {{ panel.state }}"><i class="fa-solid fa-circle"></i> {{ panel.state }}</div>
-</div>
-<style>
-    .camera_state {
-        font-style: oblique;
-        float: right;
-        text-align: right;
-    }
-
-    .camera_state.off {
-        color: #866060;
-    }
-
-    .camera_state.error {
-        color: #7c445b;
-    }
-
-    .camera_state.on {
-        color: #548054;
-    }
-</style>
+{% with name=panel.name, icon="camera", state={"class": panel.state, "content": panel.state} %}
+    {% include 'panel_base.html' %}
+{% endwith %}
 <img src="{% if panel.state == 'error' %}{{ url_for('static', filename='no-image.png') }}{% else %}/camera/webcam{% endif %}" width="480" style="width: 100%" alt="Camera Offline">
 
 <div>

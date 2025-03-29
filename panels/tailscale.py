@@ -5,7 +5,7 @@ import json
 
 from flask import jsonify
 
-from panels.base_panel import BasePanel
+from panels.base_panel import BasePanel, ActivityState
 
 
 class TailscalePanel(BasePanel):
@@ -16,12 +16,12 @@ class TailscalePanel(BasePanel):
 
     def get_status_format(self, status: str):
         if status == 'offline':
-            return "off"
+            return ActivityState.OFF
         elif status == '-' or status == 'online':
-            return "on"
+            return ActivityState.ON
         elif status.startswith('idle'):
-            return "idle"
-        return 'idle'
+            return ActivityState.IDLE
+        return ActivityState.IDLE
 
     def get_tailscale_status(self):
         try:
@@ -37,7 +37,7 @@ class TailscalePanel(BasePanel):
                         'device_name': columns[1],
                         'owner': columns[2].removesuffix('@'),
                         'os': columns[3],
-                        'status': self.get_status_format(columns[4])
+                        'status': self.get_status_format(columns[4]).value
                     }
                     devices.append(device_info)
             return devices
@@ -56,7 +56,6 @@ class TailscalePanel(BasePanel):
 
     def get_data(self):
         info = self.get_tailnet_info()
-        print(self.get_tailscale_status())
         return {'devices': self.get_tailscale_status(), 'tailnet_name': info[0], 'tailnet_link': info[1]}
 
     def set_config(self, data):

@@ -3,6 +3,7 @@ import time
 
 from flask import Response, request, jsonify
 
+from base_panel import ActivityState
 from panels.base_panel import BasePanel
 
 # Path for the temporary image that fswebcam will capture
@@ -13,7 +14,7 @@ class CameraPanel(BasePanel):
     def __init__(self):
         super().__init__('camera', '/camera')
         self.name = "Monitoring"
-        self.state = "on"
+        self.state = ActivityState.ON
         self.brightness = "60%"
         self.contrast = "15%"
         self.saturation = "50%"
@@ -23,7 +24,7 @@ class CameraPanel(BasePanel):
     def get_data(self):
         return {
             'name': self.name,
-            'state': self.state,
+            'state': self.state.value,
             'brightness': int(self.brightness),
             'contrast': int(self.contrast),
             'saturation': int(self.saturation)
@@ -31,14 +32,14 @@ class CameraPanel(BasePanel):
 
     def set_config(self, data):
         self.name = data.get('name', self.name)
-        self.state = "on" if data.get('enabled', True) else "off"
+        self.state = ActivityState.ON if data.get('enabled', True) else ActivityState.OFF
         self.brightness = data.get('brightness', self.brightness)
         self.contrast = data.get('contrast', self.contrast)
         self.saturation = data.get('saturation', self.saturation)
 
     def image_stream(self):
         while True:
-            if self.state != "on":
+            if self.state.isInactive():
                 break
             try:
                 # Capture an image using fswebcam
@@ -53,11 +54,11 @@ class CameraPanel(BasePanel):
                            b'Content-Type: image/jpeg\r\n\r\n' + img_data + b'\r\n')
                 time.sleep(0.1)
             except subprocess.CalledProcessError:
-                self.state = "error"
+                self.state = ActivityState.ERROR
                 self.log("Error: Failed to capture image.")
                 break
             except FileNotFoundError:
-                self.state = "error"
+                self.state = ActivityState.ERROR
                 self.log("Error: Image path not found.")
                 break
 
@@ -69,12 +70,12 @@ class CameraPanel(BasePanel):
         self.brightness = data.get('brightness', self.brightness)
         self.contrast = data.get('contrast', self.contrast)
         self.saturation = data.get('saturation', self.saturation)
-        self.state = "on" if data.get('enabled', True) else "off"
+        self.state = ActivityState.ON if data.get('enabled', True) else ActivityState.OFF
         self.save_config({
             'brightness': self.brightness,
             'contrast': self.contrast,
             'saturation': self.saturation,
-            'enabled': self.state != "off"
+            'enabled': self.state.isReady()
         })
         return jsonify({"status": "success", "brightness": self.brightness, "contrast": self.contrast,
-                        "saturation": self.saturation, "enabled": self.state != "off"})
+                        "saturation": self.saturation, "enabled": self.state.isReady()})

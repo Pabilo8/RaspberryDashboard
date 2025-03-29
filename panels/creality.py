@@ -1,7 +1,5 @@
-# panels/creality.py
-from flask import app, Response, stream_with_context
-
-from panels.base_panel import BasePanel
+from flask import Response, stream_with_context
+from panels.base_panel import BasePanel, ActivityState
 import requests
 
 
@@ -10,6 +8,7 @@ class CrealityPanel(BasePanel):
         super().__init__('creality', '/creality')
         self.name = "Ender 3"
         self.ip = None
+        self.state = ActivityState.OFF
 
     def get_data(self):
         if not self.ip:
@@ -40,7 +39,7 @@ class CrealityPanel(BasePanel):
             progress = data.get('print_stats', {}).get('print_duration', 0.0)
             remaining = data.get('print_stats', {}).get('total_duration', 0.0)
 
-            state = data.get('print_stats', {}).get('state', 'off')
+            self.map_moonraker_state_to_activity_state(data.get('print_stats', {}).get('state', 'off'))
             state_message = data.get('print_stats', {}).get('message', '')
             state_filename = data.get('print_stats', {}).get('filename', '')
             temperatures = data.get('temperatures', {})
@@ -50,7 +49,7 @@ class CrealityPanel(BasePanel):
                 'done': self.format_time(progress),
                 'remaining': self.format_time(remaining),
                 'progress': round(progress / remaining * 100, 0) if remaining > 0 else 0,
-                'state': state,
+                'state': self.state,
                 'state_message': state_message,
                 'state_filename': state_filename,
                 'temperatures': temperatures
@@ -62,7 +61,7 @@ class CrealityPanel(BasePanel):
                 'done': 0,
                 'remaining': 0,
                 'progress': 0.0,
-                'state': 'off',
+                'state': ActivityState.OFF.value,
                 'state_message': '',
                 'state_filename': '',
                 'temperatures': {}
@@ -75,9 +74,9 @@ class CrealityPanel(BasePanel):
 
     def format_time(self, seconds):
         intervals = (
-            ('weeks', 604800),  # 60 * 60 * 24 * 7
-            ('days', 86400),  # 60 * 60 * 24
-            ('hours', 3600),  # 60 * 60
+            ('weeks', 604800),
+            ('days', 86400),
+            ('hours', 3600),
             ('minutes', 60),
             ('seconds', 1),
         )
@@ -88,6 +87,20 @@ class CrealityPanel(BasePanel):
                 seconds -= value * count
                 result.append(f"{value} {name}")
         return ', '.join(result)
+
+    def map_moonraker_state_to_activity_state(self, moonraker_state: str):
+        state_mapping = {
+            'printing': ActivityState.WORKING,
+            'paused': ActivityState.IDLE,
+            'complete': ActivityState.COMPLETE,
+            'error': ActivityState.ERROR,
+            'standby': ActivityState.IDLE,
+            'off': ActivityState.OFF,
+            'on': ActivityState.ON
+        }
+        # Default to OFF if state is not recognized
+        self.state = state_mapping.get(moonraker_state, ActivityState.OFF)
+        return self.state
 
     def webcam_stream(self):
         if not self.ip:

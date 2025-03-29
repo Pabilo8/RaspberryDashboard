@@ -3,6 +3,6 @@
     <td>{{ product.name }}</td>
     <td style="white-space:nowrap;">{% if product.quantity != 1 %} x {{ product.quantity }}{% endif %}</td>
     <td>
-        <button onclick="deleteProduct('{{ product.code }}')"><i class="fa-solid fa-trash"></i></button>
+        <button onclick="deleteProduct('{{ product.code }}')">{{ 'trash' | icon }}</button>
     </td>
 </tr>

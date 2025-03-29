@@ -1,4 +1,6 @@
-<div class="handle"><i class="fa-solid fa-cloud"></i> Environment</div>
+{% with name="Environment", icon="cloud" %}
+    {% include 'panel_base.html' %}
+{% endwith %}
 <style>
     .weather_td {
         text-align: right;
@@ -9,22 +11,22 @@
 </style>
 <table style="width: 100%; padding: 5px">
     <tr>
-        <th><i class="fa-solid {{ panel.icon }}"></i></th>
+        <th>{{ panel.icon | icon }}</th>
         <th class="weather_th">Weather</th>
         <td class="weather_td">{{ panel.weather_desc }}</td>
     </tr>
     <tr>
-        <th><i class="fa-solid fa-building-user"></i></th>
+        <th>{{ 'building-user' | icon }}</th>
         <th class="weather_th">Outside Temperature</th>
         <td class="weather_td">{{ panel.outside_temp }} °C</td>
     </tr>
     <tr>
-        <th><i class="fa-solid fa-house-flag"></i></th>
+        <th>{{ 'house-flag' | icon }}</th>
         <th class="weather_th">Room Temperature</th>
         <td class="weather_td">{{ panel.room_temp }} °C</td>
     </tr>
     <tr>
-        <th><i class="fa-solid fa-microchip"></i></th>
+        <th>{{ 'microchip' | icon }}</th>
         <th class="weather_th">CPU Temperature</th>
         <td class="weather_td">{{ panel.cpu_temp }} °C</td>
     </tr>

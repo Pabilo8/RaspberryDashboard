@@ -1,7 +1,6 @@
-<div class="handle">
-    <i class="fa-solid fa-cube"></i> {{ panel.model_name }}
-    <div class="printer_state {{ panel.state }}"><i class="fa-solid fa-circle"></i> {{ panel.state }}</div>
-</div>
+{% with name=panel.model_name, icon="cube", state={"class": panel.state, "content": panel.state} %}
+    {% include 'panel_base.html' %}
+{% endwith %}
 <style>
     .creality_td {
         text-align: right;
@@ -9,33 +8,6 @@
     .creality_th {
         text-align: left;
     }
-    
-    .printer_state {
-        font-style: oblique;
-        float: right;
-        text-align: right;
-    }
-
-    .printer_state.off, .printer_state.cancelled {
-        color: #866060;
-    }
-
-    .printer_state.error {
-        color: #7c445b;
-    }
-
-    .printer_state.complete {
-        color: #548054;
-    }
-
-    .printer_state.standby {
-        color: #988b68;
-    }
-
-    .printer_state.printing {
-        color: #7e9868;
-    }
-
 </style>
 <img src='/creality/webcam' width="480" style="width: 100%"
      onerror="this.onerror=null;this.src='{{ url_for('static', filename='no-image.png') }}';" alt="Printer Offline">
@@ -50,11 +22,12 @@
 {% if panel.state_filename %}
 <table style="width: 100%; padding: 5px">
     <tr>
-        <th><i class="fa-solid fa-circle-info"></i></th>
+
+        <th>{{ 'circle-info' | icon }}</th>
         <td class="creality_td">{{ panel.state_message }}</td>
     </tr>
     <tr>
-        <th><i class="fa-solid fa-file-export"></i></th>
+        <th>{{ 'file-export' | icon }}</th>
         <td class="creality_td">{{ panel.state_filename }}</td>
     </tr>
 </table>

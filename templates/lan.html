@@ -1,4 +1,6 @@
-<div class="handle"><i class="fa-solid fa-network-wired"></i> LAN</div>
+{% with name="LAN", icon="network-wired" %}
+{% include 'panel_base.html' %}
+{% endwith %}
 <style>
     .presence-list {
         max-height: 300px;
@@ -72,13 +74,6 @@
         text-align: right;
     }
 
-    .user-status.present {
-        color: #548054;
-    }
-
-    .user-status.absent {
-        color: #866060;
-    }
 </style>
 <div class="presence-list">
     {% for user, details in panel.users.items() %}
@@ -89,7 +84,8 @@
              alt="{{ details.display_name }}">
         <div class="user-name-status">
             <div class="user-name">{{ details.display_name }}</div>
-            <div class="user-status {{ 'present' if details.present else 'absent' }}"><i class="fa-solid fa-circle"></i>
+            <div class="user-status state {{ 'on' if details.present else 'off' }}">
+                {{ 'circle' | icon }}
             </div>
         </div>
     </div>
@@ -107,7 +103,7 @@
     </thead>
     <tbody id="lan-devices-entries">
     {% for device in panel.devices %}
-        {% include 'lan_entry.html' %}
+    {% include 'lan_entry.html' %}
     {% endfor %}
     </tbody>
 </table>

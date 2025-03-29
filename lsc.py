@@ -2,6 +2,7 @@ import logging
 
 from flask import Flask, render_template
 from flask_sock import Sock
+from markupsafe import Markup
 
 from panels import led, weather, creality, tailscale, lan, fridge, camera
 from panels.base_panel import BasePanel
@@ -39,6 +40,9 @@ register_panel(lan.LANPanel(sock))
 register_panel(fridge.FridgePanel(sock))
 register_panel(camera.CameraPanel())
 
+@app.template_filter('icon')
+def icon(icon_name):
+    return Markup(f'<i class="fa-solid fa-{icon_name}"></i>')
 @app.route('/')
 def index():
     panel_data = {}
@@ -62,3 +66,4 @@ def index():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
+    app.jinja_env.filters['icon'] = icon

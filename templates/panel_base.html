@@ -1,0 +1,11 @@
+<div class="handle">
+    {% if icon %}
+        {{ icon | icon }}
+    {% endif %}
+    {{ name }}
+    {% if state %}
+        <div class="panel_state state {{ state.class }}">
+            {{ 'circle' | icon }} {{ state.content }}
+        </div>
+    {% endif %}
+</div>

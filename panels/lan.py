@@ -102,7 +102,7 @@ class LANPanel(BasePanel):
                     'hostname': "Router",
                     'ip_address': self.host,
                     'mac_address': "",
-                    'conn': 'server'
+                    'conn': 'router'
                 })
 
                 # Update device names and icons

@@ -21,13 +21,13 @@ class WeatherPanel(BasePanel):
             case '09':
                 return 'cloud-rain'
             case '10':
-                return 'cloud-showers-heavy'
+                return 'cloud-rain-wind'
             case '11':
-                return 'cloud-bolt'
+                return 'cloud-lightning'
             case '13':
-                return 'snowflake'
+                return 'cloud-snow'
             case '50':
-                return 'smog'
+                return 'biohazard'
         return code
 
     def get_openweather(self):

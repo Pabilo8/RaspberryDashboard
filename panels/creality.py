@@ -49,7 +49,7 @@ class CrealityPanel(BasePanel):
                 'done': self.format_time(progress),
                 'remaining': self.format_time(remaining),
                 'progress': round(progress / remaining * 100, 0) if remaining > 0 else 0,
-                'state': self.state,
+                'state': self.state.value,
                 'state_message': state_message,
                 'state_filename': state_filename,
                 'temperatures': temperatures

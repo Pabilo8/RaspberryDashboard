@@ -78,6 +78,53 @@
 
         rows.forEach(row => table.tBodies[0].appendChild(row));
     }
+
+    function updatePanelState(panelName, state) {
+        // Find the panel by its name
+        const panel = document.getElementById(panelName + '-panel');
+        if (!panel) {
+            console.error('Panel not found:', panelName);
+            return;
+        }
+
+        //Get the inner 'handle' div and the 'panel_state' div
+        const handle = panel.getElementsByClassName('handle')[0];
+        if (!handle) {
+            console.error('Handle not found in panel:', panelName);
+            return;
+        }
+        //Get the state div
+        const stateDiv = handle.getElementsByClassName('panel_state')[0];
+        if (!stateDiv) {
+            console.error('State div not found in handle:', panelName);
+            return;
+        }
+
+        // Update the panel state
+        let icon = 'circle';
+        switch (state) {
+            case 'on':
+                icon = 'circle';
+                break;
+            case 'working':
+                icon = 'circle-ellipsis';
+                break;
+            case 'off':
+                icon = 'circle-x';
+                break;
+            case 'complete':
+                icon = 'circle-check-big';
+                break;
+            case 'idle':
+                icon = 'circle-pause';
+                break;
+            case 'error':
+                icon = 'circle-alert';
+                break;
+        }
+        stateDiv.className = 'panel_state state ' + state.class;
+        stateDiv.innerHTML = '{{ "bim" | icon }}'.replace('bim',icon) + '&nbsp;' + state.content;
+    }
 </script>
 </body>
 </html>

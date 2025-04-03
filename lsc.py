@@ -65,7 +65,7 @@ def set_config(data: dict):
 load_config()
 register_panel(led.LEDPanel())
 register_panel(weather.WeatherPanel())
-register_panel(creality.CrealityPanel())
+register_panel(creality.CrealityPanel(sock))
 register_panel(tailscale.TailscalePanel())
 register_panel(lan.LANPanel(sock))
 register_panel(fridge.FridgePanel(sock))

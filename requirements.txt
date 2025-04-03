@@ -5,3 +5,4 @@ Flask
 requests
 tinydb
 flask-sock
+websocket-client

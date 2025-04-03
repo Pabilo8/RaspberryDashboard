@@ -1,34 +1,90 @@
 {% with name=panel.model_name, icon="box", state={"class": panel.state, "content": panel.state} %}
-    {% include 'panel_base.html' %}
+{% include 'panel_base.html' %}
 {% endwith %}
 <style>
     .creality_td {
         text-align: right;
     }
+
     .creality_th {
         text-align: left;
+    }
+
+    #printer-file-info[visible=false] {
+        display: none;
     }
 </style>
 <img src='/creality/webcam' width="480" style="width: 100%"
      onerror="this.onerror=null;this.src='{{ url_for('static', filename='no-image.png') }}';" alt="Printer Offline">
 
 <center>
-    {{ panel.done }}
-    <progress id="printing" value="{{ panel.progress }}" max="100">{{ panel.progress }}%
+    <div id="printing-done">{{ panel.done }}</div>
+    <progress id="printing-progress" value="{{ panel.progress }}" max="100">{{ panel.progress }}%
     </progress>
-    {{ panel.remaining }}
+    <div id="printing-remaining">{{ panel.remaining }}</div>
 </center>
 
-{% if panel.state_filename %}
-<table style="width: 100%; padding: 5px">
-    <tr>
+<div id="printer-file-info">
+    <table style="width: 100%; padding: 5px">
+        <tr>
+            <th>{{ 'info' | icon }}</th>
+            <td class="creality_td" id="printer-state">{{ panel.state_message }}</td>
+        </tr>
+        <tr>
+            <th>{{ 'file-axis-3d' | icon }}</th>
+            <td class="creality_td" id="printer-filename">{{ panel.state_filename }}</td>
+        </tr>
+    </table>
+</div>
 
-        <th>{{ 'circle-info' | icon }}</th>
-        <td class="creality_td">{{ panel.state_message }}</td>
-    </tr>
-    <tr>
-        <th>{{ 'file-export' | icon }}</th>
-        <td class="creality_td">{{ panel.state_filename }}</td>
-    </tr>
-</table>
-{% endif %}
+<script>
+    const printerWebSocket = new WebSocket("ws://" + location.host + "/creality/ws");
+    let printerState = '{{ panel.state }}';
+
+    printerWebSocket.onopen = function () {
+        console.log("WebSocket connection opened");
+    };
+
+    printerWebSocket.onmessage = function (event) {
+        const data = JSON.parse(event.data);
+        //Update the panel with the received data
+        document.getElementById('printing-progress').value = data.progress;
+        document.getElementById('printing-progress').innerText = data.progress + "%";
+
+        //Update the panel state icon
+        if (printerState !== data.state)
+            updatePanelState('creality', {class: data.state, content: data.state});
+
+        if (data.state == 'on' || data.state == 'off')
+            document.getElementById('printer-file-info').setAttribute('visible', 'false');
+        else {
+            document.getElementById('printer-file-info').setAttribute('visible', 'true');
+            document.getElementById('printing-remaining').innerText = data.remaining;
+            document.getElementById('printing-done').innerText = data.done;
+            document.getElementById('printer-state').innerText = data.state_message;
+            document.getElementById('printer-filename').innerText = data.state_filename;
+        }
+    };
+
+    printerWebSocket.onclose = function () {
+        console.log("WebSocket connection closed");
+    };
+    printerWebSocket.onerror = function (error) {
+        console.log("WebSocket error:", error);
+    };
+
+    function sendUpdate(data) {
+        if (printerWebSocket.readyState === WebSocket.OPEN) {
+            printerWebSocket.send(JSON.stringify(data));
+        }
+    }
+
+    // Example function to send an update
+    function updateProgress(progress) {
+        const data = {progress: progress};
+        sendUpdate(data);
+    }
+
+    // Call updateProgress with the new progress value when needed
+    // updateProgress(newProgressValue);
+</script>

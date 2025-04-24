@@ -1,4 +1,6 @@
 import json
+import logging
+
 from flask import Response, stream_with_context
 from flask_sock import Sock
 from panels.base_panel import BasePanel, ActivityState
@@ -58,9 +60,10 @@ class CrealityPanel(BasePanel):
 
             # Deduce the current printer state from the notification.
             # You can expand this mapping as needed.
+            logging.log(data)
             if action == "finished" or job_status == "completed":
                 self.state = ActivityState.COMPLETE
-            elif action == "printing" or job_status == "printing":
+            elif job_status == "in_progress" or job_status == "printing":
                 self.state = ActivityState.WORKING
             elif action == "paused" or job_status == "paused":
                 self.state = ActivityState.IDLE
@@ -82,7 +85,6 @@ class CrealityPanel(BasePanel):
         else:
             # Process regular messages from printer.objects.subscribe
             data = parsed.get('params', [])[0]
-            self.logger.debug(f"WebSocket message received: {message}")
             if not data:
                 return
 

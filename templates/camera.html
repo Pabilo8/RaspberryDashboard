@@ -1,45 +1,47 @@
 {% with name=panel.name, icon="video", state={"class": panel.state, "content": panel.state} %}
     {% include 'panel_base.html' %}
 {% endwith %}
-<img src="{% if panel.state == 'error' %}{{ url_for('static', filename='no-image.png') }}{% else %}/camera/webcam{% endif %}" width="480" style="width: 100%" alt="Camera Offline">
+
+<img id="cameraFeed" width="100%" alt="camera feed" src=""
+     onerror="this.onerror=null;this.src='{{ url_for('static', filename='no-image.png') }}';"/>
 
 <div>
-    <label for="brightness">Brightness:</label>
-    <input type="range" id="brightness" name="brightness" min="0" max="100" value="{{ panel.brightness }}" oninput="updateCameraSettings()">
-</div>
-<div>
-    <label for="contrast">Contrast:</label>
-    <input type="range" id="contrast" name="contrast" min="0" max="100" value="{{ panel.contrast }}" oninput="updateCameraSettings()">
-</div>
-<div>
-    <label for="saturation">Saturation:</label>
-    <input type="range" id="saturation" name="saturation" min="0" max="100" value="{{ panel.saturation }}" oninput="updateCameraSettings()">
-</div>
-<div>
-    <label for="enabled">Enabled:</label>
-    <input type="checkbox" id="enabled" name="enabled" {% if panel.state == 'on' %}checked{% endif %} onchange="updateCameraSettings()">
+    <label for="cameraSelect">Camera:</label>
+    <select id="cameraSelect" onchange="switchCamera()">
+        {% for camera in panel.cameras %}
+        <option value="{{ loop.index0 }}">Camera {{ camera }}</option>
+        {% endfor %}
+    </select>
 </div>
 
 <script>
-    function updateCameraSettings() {
-        const brightness = document.getElementById('brightness').value;
-        const contrast = document.getElementById('contrast').value;
-        const saturation = document.getElementById('saturation').value;
-        const enabled = document.getElementById('enabled').checked;
+    let videoElement = document.getElementById('cameraFeed');
 
+    function switchCamera() {
+        const index = document.getElementById('cameraSelect').value;
         fetch('/camera/set_camera_settings', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ brightness, contrast, saturation, enabled })
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({camera_index: index})
         })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Success:', data);
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
+            .then(() => loadStream());
+    }
+
+    function loadStream() {
+        const index = document.getElementById('cameraSelect').value;
+        fetch(`/camera/webcam?camera=${index}`)
+            .then(response => {
+                if (response.status === 403) {
+                    videoElement.src = '';
+                    videoElement.alt = 'Camera feed not available';
+                    return;
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (!data) return;
+                const host = window.location.hostname;
+                videoElement.src = `http://${host}${data.url}`;
+            });
     }
 </script>

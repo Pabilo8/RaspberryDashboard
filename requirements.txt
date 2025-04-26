@@ -6,3 +6,5 @@ requests
 tinydb
 flask-sock
 websocket-client
+mistralai
+markdown2

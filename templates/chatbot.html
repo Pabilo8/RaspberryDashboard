@@ -1,0 +1,105 @@
+{% with name=panel.name, icon=panel.icon %}
+{% include 'panel_base.html' %}
+{% endwith %}
+
+<style>
+    #chatWindow {
+        background-color: #36383a;
+        font-size: 0.8em;
+        height: 400px;
+        max-height: 400px;
+        overflow-y: auto;
+        border-bottom: 1px solid #555555;
+        padding: 10px;
+    }
+
+    .chat-message {
+        position: relative;
+        background: #4e5254;
+        margin-bottom: 10px;
+        margin-top: 20px;
+        border-radius: 10px;
+        padding: 8px 12px;
+        max-width: 100%;
+        word-break: break-word;
+    }
+
+    .message-header {
+        position: absolute;
+        top: -24px;
+        left: -4px;
+        display: flex;
+        align-items: center;
+        margin-bottom: 4px;
+        border-radius: 10px;
+        padding-right: 4px;
+        background-color: #5E5F61;
+    }
+
+    .avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 35%;
+        object-fit: cover;
+        margin-right: 10px;
+    }
+
+    .sender-name {
+        font-weight: bold;
+        font-size: 0.9em;
+        margin-bottom: 4px;
+    }
+
+    .message-text {
+        font-size: 1em;
+    }
+</style>
+
+<div id="chatWindow"></div>
+<div style="display: flex;">
+    <input type="text" id="userInput" placeholder="Hello, {{ panel.name }}" style="flex: 1;"
+           onkeydown="if(event.key === 'Enter') sendMessage()">
+    <button onclick="sendMessage()">{{ 'send-horizontal' | icon }}</button>
+</div>
+
+<script>
+    async function sendMessage() {
+        const input = document.getElementById('userInput');
+        const message = input.value.trim();
+        if (!message) return;
+
+        appendToChat('You', `<p>${message}</p>`, "{{ url_for('static', filename='no-user.jpg') }}");
+        input.value = '';
+
+        const response = await fetch('/chatbot/send', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({message})
+        });
+
+        const data = await response.json();
+        if (data.reply) {
+            appendToChat('{{ panel.name }}', data.reply, "{{ url_for('static', filename='lan_users/' ~ panel.name ~ '.jpg') }}");
+        } else {
+            appendToChat('System', `<p>Error:  ${(data.error || 'Unknown')}</p>`, "{{ url_for('static', filename='system.jpg') }}");
+        }
+    }
+
+    function appendToChat(sender, message, avatarUrl) {
+        const chatWindow = document.getElementById('chatWindow');
+
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'chat-message';
+
+        messageDiv.innerHTML = `
+        <div class="message-header">
+            <img src="${avatarUrl}" alt="${sender}" class="avatar">
+            <div class="sender-name">${sender}</div>
+        </div>
+        <div class="message-text">${message}</div>
+    `;
+
+        chatWindow.appendChild(messageDiv);
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+    }
+</script>

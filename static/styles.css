@@ -77,7 +77,7 @@ h1 {
     border-radius: 1px;
 }
 
-.top-hr{
+.top-hr {
     border-top: 0;
 }
 
@@ -118,7 +118,7 @@ input[type="text"], input[type="number"] {
 }
 
 input[type="number"]::-webkit-inner-spin-button {
-  -webkit-appearance: none;
+    -webkit-appearance: none;
 }
 
 input[type="button"] {

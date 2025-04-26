@@ -70,6 +70,7 @@ register_panel(tailscale.TailscalePanel())
 register_panel(lan.LANPanel(sock))
 register_panel(fridge.FridgePanel(sock))
 register_panel(camera.CameraPanel())
+register_panel(chatbot.ChatbotPanel())
 
 
 @app.template_filter('icon')

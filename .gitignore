@@ -2,3 +2,4 @@ venv/
 settings.json
 fridge_db.json
 /static/lan_users/
+.idea/

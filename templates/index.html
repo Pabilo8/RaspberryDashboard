@@ -10,6 +10,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
     <!--    <script src="https://kit.fontawesome.com/7600225419.js" crossorigin="anonymous"></script>-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lucide-static/font/lucide.css">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}">
 </head>
 <body>
 <h1>Raspberry-Pi Control Dashboard</h1>
@@ -123,7 +128,7 @@
                 break;
         }
         stateDiv.className = 'panel_state state ' + state.class;
-        stateDiv.innerHTML = '{{ "bim" | icon }}'.replace('bim',icon) + '&nbsp;' + state.content;
+        stateDiv.innerHTML = '{{ "bim" | icon }}'.replace('bim', icon) + '&nbsp;' + state.content;
     }
 </script>
 </body>

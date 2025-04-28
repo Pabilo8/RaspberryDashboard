@@ -1,6 +1,16 @@
 # panels/weather.py
-from panels.base_panel import BasePanel
+
+try:
+    import w1thermsensor
+
+    w1thermsensoravailable = True
+except:
+    w1thermsensoravailable = False
+    w1thermsensor = None
+
 import requests
+
+from panels.base_panel import BasePanel
 
 
 class WeatherPanel(BasePanel):
@@ -67,13 +77,20 @@ class WeatherPanel(BasePanel):
         except FileNotFoundError:
             return -1
 
+    def get_room_temperature(self):
+        if not w1thermsensoravailable:
+            self.log("w1thermsensor module not available")
+            return -1
+
+        return w1thermsensor.W1ThermSensor().get_temperature(unit=w1thermsensor.Unit.DEGREES_C)
+
     def get_data(self):
         w = self.get_openweather()
         return {
             'weather_desc': w['description'],
             'outside_temp': w['outside_temp'],
             'icon': w['icon'],
-            'room_temp': 21,
+            'room_temp': self.get_room_temperature(),
             'cpu_temp': self.get_cpu_temperature(),
         }
 
